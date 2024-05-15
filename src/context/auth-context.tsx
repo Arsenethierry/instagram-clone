@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const checkAuthUser = async() => {
         setIsLoading(true);
         try {
-            const currentAccount = await getCurrentUser() as any;
+            const currentAccount = await getCurrentUser();
             if (currentAccount) {
                 setUser({
                     id: currentAccount.$id,
