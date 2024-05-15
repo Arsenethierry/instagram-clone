@@ -1,9 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 import './globals.css';
 import SignIn from './_auth/forms/sign-in';
+import SignUp from './_auth/forms/sign-up';
 import Home from './_root/pages/Home';
 import RootLayout from './_root/RootLayout';
-import SignUp from './_auth/forms/sign-up';
 import AuthLayout from './_auth/auth-layout';
 
 function App() {

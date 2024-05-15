@@ -3,7 +3,7 @@ import { SigninValidation } from "@/lib/validation";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "@/context/auth-context";
 import { useToast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
@@ -30,6 +30,8 @@ function SignIn() {
 
         const session = await signInAccount(user);
 
+        console.log("session: ",session);
+
         if (!session) {
             toast({ title: "Login failed. Please try again." });
 
@@ -38,12 +40,16 @@ function SignIn() {
 
         const isLoggedIn = await checkAuthUser();
 
+        console.log("isLoggedIn: ", isLoggedIn)
+
         if (isLoggedIn) {
             form.reset();
 
             navigate("/")
         } else {
             toast({ title: "Login failed. Please try again.", })
+
+            return;
         }
     };
 
@@ -62,41 +68,50 @@ function SignIn() {
                     className="flex flex-col gap-5 w-full mt-4"
                 >
                     <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="shad-form_label">Email</FormLabel>
-                            <FormControl>
-                                <Input type="text" className="shad-input" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="shad-form_label">Email</FormLabel>
+                                <FormControl>
+                                    <Input type="text" className="shad-input" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
                     />
                     <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="shad-form_label">Password</FormLabel>
-                            <FormControl>
-                                <Input type="password" className="shad-input" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="shad-form_label">Password</FormLabel>
+                                <FormControl>
+                                    <Input type="password" className="shad-input" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
                     />
 
                     <Button type="submit" className="shad-button_primary">
                         {isPending || isUserLoading ? (
                             <div className="flex-center gap-2">
-                                <Loader />
+                                <Loader /> Loading...
                             </div>
                         ) : (
                             "Log in"
                         )}
                     </Button>
+
+                    <p className="text-small-regular text-light-2 text-center mt-2">
+                        Don&apos;t have an account?
+                        <Link
+                            to="/sign-up"
+                            className="text-primary-500 text-small-semibold ml-1">
+                            Sign up
+                        </Link>
+                    </p>
                 </form>
             </div>
         </Form>
