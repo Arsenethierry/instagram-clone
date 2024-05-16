@@ -9,6 +9,7 @@ import ExplorePage from './_root/pages/explore';
 import SavedPage from './_root/pages/saved';
 import CreatePost from './_root/pages/create-post';
 import EditPost from './_root/pages/edit-post';
+import PostDetails from './_root/pages/post-details';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           <Route path='/saved' element={<SavedPage />} />
           <Route path='/create-post' element={<CreatePost />} />
           <Route path='/update-post/:id' element={<EditPost />} />
+          <Route path='/posts/:id' element={<PostDetails />} />
         </Route>
       </Routes>
     </main>

@@ -1,4 +1,4 @@
-import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -215,11 +215,50 @@ export async function updatePost(post: IUpdatePost) {
             throw Error;
         }
         // Safely delete old file after successful update
-        if(hasFileToUpdate) {
+        if (hasFileToUpdate) {
             await deleteFile(post.imageId);
         }
 
         return updatedPost;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function deletePost(postId?: string, imageId?: string) {
+    if (!postId || !imageId) return;
+
+    try {
+        const statusCode = await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            postId
+        );
+
+        if (!statusCode) throw Error;
+
+        await deleteFile(imageId);
+
+        return { statusCode: "Ok" };
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function likePost(postId: string, likesArray: string[]) {
+    try {
+        const updatedPost = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            postId,
+            {
+                likes: likesArray
+            }
+        );
+
+        if (!updatedPost) throw Error;
+
+        return updatedPost
     } catch (error) {
         console.log(error);
     }
