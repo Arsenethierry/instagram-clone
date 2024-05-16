@@ -20,6 +20,7 @@ function PostDetails() {
         });
         navigate(-1);
     }
+
     return (
         <div className="post_details-container">
             <div className="hidden md:flex max-w-5xl w-full">
@@ -93,9 +94,7 @@ function PostDetails() {
                                 <Button
                                     onClick={handleDeletePost}
                                     variant={'ghost'}
-                                    className={
-                                        `post_details-delete_btn ${user.id !== post?.creator.$id && "hidden"
-                                        }`
+                                    className={`${user.id !== post?.creator.$id ? "hidden" : "post_details-delete_btn"}`
                                     }
                                 >
                                     <img

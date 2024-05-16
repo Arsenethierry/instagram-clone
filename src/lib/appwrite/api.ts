@@ -12,6 +12,28 @@ export async function getAccount() {
     }
 }
 
+export async function getUsers(limit?: number) {
+    const queries = [Query.orderDesc("$createdAt")];
+
+    if (limit) {
+        queries.push(Query.limit(limit));
+    }
+
+    try {
+        const users = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            queries
+        );
+
+        if (!users) throw Error;
+
+        return users;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export async function getCurrentUser() {
     try {
         const currentAccount = await getAccount();
@@ -102,7 +124,21 @@ export async function signOutAccount() {
     }
 }
 
+export async function getRecentPosts() {
+    try {
+        const posts = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            [Query.orderDesc("$createdAt"), Query.limit(20)]
+        );
 
+        if (!posts) throw Error;
+
+        return posts;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export async function createPost(post: INewPost) {
     try {

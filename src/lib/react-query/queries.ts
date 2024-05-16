@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getPostByID, likePost, savePost, signInAccount, signOutAccount, updatePost } from "../appwrite/api"
+import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getPostByID, getRecentPosts, getUsers, likePost, savePost, signInAccount, signOutAccount, updatePost } from "../appwrite/api"
 import { INewPost, INewUser, IUpdatePost } from "@/types"
 import { QUERY_KEYS } from "./queryKeys"
 
@@ -15,6 +15,13 @@ export const useCreateUserAccount = () => {
     });
 };
 
+export const useGetUsers = (limit?: number) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_USERS],
+        queryFn: () => getUsers(limit),
+    });
+}
+
 export const useGetCurrentUser = () => {
     return useQuery({
         queryKey: [QUERY_KEYS.GET_CURRENT_USER],
@@ -27,6 +34,13 @@ export const useSignOutAccount = () => {
         mutationFn: signOutAccount,
     });
 };
+
+export const useGetRecentPosts = () => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+        queryFn: getRecentPosts,
+    })
+}
 
 export const useCreatePost = () => {
     const queryClient = useQueryClient();
