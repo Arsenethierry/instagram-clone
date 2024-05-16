@@ -11,6 +11,7 @@ import CreatePost from './_root/pages/create-post';
 import EditPost from './_root/pages/edit-post';
 import PostDetails from './_root/pages/post-details';
 import Profile from './_root/pages/profile';
+import UpdateProfile from './_root/pages/update-profile';
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
           <Route path='/update-post/:id' element={<EditPost />} />
           <Route path='/posts/:id' element={<PostDetails />} />
           <Route path="/profile/:id/*" element={<Profile />} />
+          <Route path="/update-profile/:id/*" element={<UpdateProfile />} />
         </Route>
       </Routes>
     </main>
